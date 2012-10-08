@@ -182,5 +182,9 @@ input, textarea, select, .uneditable-input {
     &:last-child {
       border-bottom: 1px solid $grayLighter;
     }
+    &:first-child {
+      border-top: 0;
+      padding: 0;
+    }
   }
 }
