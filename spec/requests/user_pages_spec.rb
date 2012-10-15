@@ -9,9 +9,21 @@ describe "User Pages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:micropost1) { FactoryGirl.create(:micropost, user: user, content: "foo") }
+    let!(:micropost2) { FactoryGirl.create(:micropost, user: user, content: "bar") }
+    let!(:micropost3) { FactoryGirl.create(:micropost, user: user, content: "far") }
+    
     before { visit user_path(user) }
+    
     it { should have_selector('h1',    text: user.name) }
     it { should have_selector('title', text: user.name) }
+
+    describe "microposts" do
+      it { should have_content(micropost1.content) }
+      it { should have_content(micropost2.content) }
+      it { should have_content(micropost3.content) }
+      it { should have_content(user.microposts.count) }
+    end
   end
 
   describe "signup" do
@@ -132,7 +144,7 @@ describe "User Pages" do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
         fill_in "Password",         with: user.password
-        fill_in "Confirm password", with: user.password
+        fill_in "Confirmation",     with: user.password
         click_button "Save changes"
       end
 
